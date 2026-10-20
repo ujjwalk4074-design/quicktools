@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free online calculators and useful tools for everyone.">
+<title>QuickTools - Free Online Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f5ff;color:#202442}
+header{background:linear-gradient(135deg,#4338ca,#7c3aed);color:white;text-align:center;padding:35px 16px}
+header h1{font-size:34px;margin:0 0 10px}
+header p{margin:0}
+main{max-width:700px;margin:24px auto;padding:0 14px}
+.tool{background:white;border-radius:16px;padding:22px;margin:18px 0;box-shadow:0 5px 20px #2222}
+h2{margin-top:0;font-size:21px}
+label{display:block;margin-top:12px}
+input,textarea{width:100%;padding:12px;border:1px solid #ccd0e4;border-radius:9px;font-size:16px;margin:7px 0}
+button{width:100%;padding:13px;border:0;border-radius:9px;background:#4f46e5;color:white;font-size:16px;font-weight:bold;cursor:pointer;margin-top:8px}
+button:hover{background:#3730a3}
+.result{color:#4338ca;font-weight:bold;overflow-wrap:anywhere}
+footer{text-align:center;padding:25px;color:#60657a}
+</style>
+</head>
+<body>
+<header>
+<h1>⚡ QuickTools</h1>
+<p>Simple, useful and free online tools</p>
+</header>
+<main>
+<section class="tool">
+<h2>📊 Percentage Calculator</h2>
+<label>Total marks or number</label>
+<input id="total" type="number" min="0.000001" placeholder="Example: 500">
+<label>Obtained marks or part</label>
+<input id="part" type="number" min="0" placeholder="Example: 425">
+<button onclick="percentage()">Calculate Percentage</button>
+<p id="percentResult" class="result" aria-live="polite"></p>
+</section>
+
+<section class="tool">
+<h2>📝 Word & Character Counter</h2>
+<textarea id="words" rows="5" placeholder="Type or paste your text here..." oninput="countWords()"></textarea>
+<p id="wordResult" class="result">Words: 0 | Characters: 0</p>
+</section>
+
+<section class="tool">
+<h2>🎂 Age Calculator</h2>
+<label>Your date of birth</label>
+<input id="dob" type="date">
+<button onclick="calculateAge()">Calculate Age</button>
+<p id="ageResult" class="result" aria-live="polite"></p>
+</section>
+</main>
+<footer>Made with ❤️ by QuickTools</footer>
+<script>
+function percentage(){
+ const t=Number(document.getElementById('total').value);
+ const p=Number(document.getElementById('part').value);
+ const out=document.getElementById('percentResult');
+ if(document.getElementById('total').value===''||
+ document.getElementById('part').value===''||t<=0||p<0){
+ out.textContent='Please enter a total greater than zero and a valid value.';
+ return;
+ }
+ out.textContent='Result: '+(p/t*100).toFixed(2)+'%';
+}
+function countWords(){
+ const s=document.getElementById('words').value;
+ const n=s.trim()?s.trim().split(/\s+/).length:0;
+ document.getElementById('wordResult').textContent=
+ 'Words: '+n+' | Characters: '+s.length;
+}
+function calculateAge(){
+ const v=document.getElementById('dob').value;
+ const out=document.getElementById('ageResult');
+ if(!v){out.textContent='Please select your birth date.';return}
+ const dob=new Date(v+'T00:00:00');
+ const now=new Date();
+ if(dob>now){out.textContent='Birth date cannot be in the future.';return}
+ let y=now.getFullYear()-dob.getFullYear();
+ let m=now.getMonth()-dob.getMonth();
+ let d=now.getDate()-dob.getDate();
+ if(d<0){m--;d+=new Date(now.getFullYear(),now.getMonth(),0).getDate()}
+ if(m<0){y--;m+=12}
+ out.textContent=`Your age: ${y} years, ${m} months and ${d} days`;
+}
+</script>
+</body>
+</html>
